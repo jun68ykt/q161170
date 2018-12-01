@@ -61,7 +61,7 @@
 
         function createLinkForTag(tag) {
             const a = document.createElement("a");
-            a.setAttribute('href', `https://dummyimage.com/600x400/000000/fff&text=${tag.substring(1)}`);
+            a.setAttribute('href', `https://ja.wikipedia.org/wiki/${tag.substring(1)}`);
             a.setAttribute('target', '_blank');
             a.appendChild(document.createTextNode(tag));
             return a;
@@ -83,12 +83,12 @@
 </head>
 <body>
     <div id="outer" style="background-color: #ddd; padding: 20px;">
-    #tag1 #tag2 tag3 #tag4<br />
+    #JavaScript #Ruby Prolog #Python<br />
         <div>
             <p>
                 <a href="https://teratail.com/questions/161170">Teratail Question #161170</a>
             </p>
-            <br />tag5 #tag6 #tag7 tag8
+            <br />Eiffel #Golang #Scala Lisp
         </div>
     </div>
 
