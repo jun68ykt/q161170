@@ -73,7 +73,7 @@
 
                 textNodes.forEach(t => {
                     const { rpls, includingTags } = getReplacementsForTextNode(t, createLinkForTag);
-                    if (rpls && includingTags) {
+                    if (includingTags) {
                         replaceTextNode(t, rpls);
                     }
                 });
