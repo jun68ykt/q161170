@@ -17,7 +17,7 @@
             return textNodes;
         }
 
-        function getReplacementsForTextNode(textNode, replacer) {
+        function getReplacementsForTextNode(textNode, createReplacement) {
             const rpls = [];
 
             // parent が <a> の場合、置き換えを行わない
@@ -33,7 +33,7 @@
                     const subTextNode = document.createTextNode(str.substring(0, m.index));
                     rpls.push(subTextNode);
                 }
-                rpls.push(replacer(m[0]));
+                rpls.push(createReplacement(m[0]));
                 str = str.substring(m.index + m[0].length);
             }
 
