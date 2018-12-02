@@ -18,36 +18,33 @@
         }
 
         function getReplacementsForTextNode(textNode, replacer) {
+            const rpls = [];
+
             // parent が <a> の場合、置き換えを行わない
             if (textNode.parentNode.tagName === 'A') {
-                return { rpls: null };
+                return rpls;
             }
 
-            const rpls = [];
-            let m;
             let str = textNode.nodeValue;
-            let includingTags = false;
+            let m;
 
             while ( m = /#([^\s#]+)/.exec(str)) {
-                if (!includingTags) includingTags = true;
-
                 if (m.index > 0) {
                     const subTextNode = document.createTextNode(str.substring(0, m.index));
                     rpls.push(subTextNode);
                 }
-
                 rpls.push(replacer(m[0]));
-
                 str = str.substring(m.index + m[0].length);
             }
-            if (str.length > 0) {
+
+            if (rpls.length > 0 && str) {
                 rpls.push(document.createTextNode(str));
             }
-            return { rpls, includingTags };
+            return rpls;
         }
 
         function replaceTextNode(textNode, rpls) {
-            if (!rpls || !rpls.length) return;
+            if (rpls.length === 0) return;
 
             const parent = textNode.parentNode;
             parent.replaceChild(rpls[rpls.length-1], textNode);
@@ -59,7 +56,7 @@
             }
         }
 
-        function createLinkForTag(tag) {
+        function createWikipediaLink(tag) {
             const a = document.createElement("a");
             a.setAttribute('href', `https://ja.wikipedia.org/wiki/${tag.substring(1)}`);
             a.setAttribute('target', '_blank');
@@ -70,12 +67,9 @@
         $(function(){
             $('button').on('click', function() {
                 const textNodes = getTextNodes(document.getElementById('outer'));
-
                 textNodes.forEach(t => {
-                    const { rpls, includingTags } = getReplacementsForTextNode(t, createLinkForTag);
-                    if (includingTags) {
-                        replaceTextNode(t, rpls);
-                    }
+                    const rpls = getReplacementsForTextNode(t, createWikipediaLink);
+                    replaceTextNode(t, rpls);
                 });
             })
         });
